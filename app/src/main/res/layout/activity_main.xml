@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical" android:padding="16dp"
-  android:layout_width="match_parent" android:layout_height="match_parent">
-  <TextView android:id="@+id/status" android:text="Mic: остановлен" android:textSize="18sp"
-    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-  <Button android:id="@+id/btn" android:text="Старт"
-    android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"/>
-  <EditText android:id="@+id/path"
-    android:hint="/data/data/com.termux/files/home/jarvis_core/tmp/jarvis_stream.wav"
-    android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+        android:text="Jarvis Mic Bridge Active"
+        android:textSize="22sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

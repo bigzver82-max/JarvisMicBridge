@@ -1,43 +1,24 @@
 name: Android Build
 on:
-  push:
-    branches: [ master ]
-
+  push: { branches: [ master ] }
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android platforms & build-tools
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - uses: android-actions/setup-android@v3
+      - name: Accept licenses + install SDK
         run: |
           yes | sdkmanager --licenses >/dev/null
           yes | sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
-
-      - name: Install Gradle via SDKMAN and create wrapper
-        run: |
-          curl -s "https://get.sdkman.io" | bash
-          source "$HOME/.sdkman/bin/sdkman-init.sh"
-          sdk install gradle 8.7
-          gradle --version
-          gradle wrapper --gradle-version 8.7
-          chmod +x ./gradlew
-
-      - name: Build debug APK
-        run: ./gradlew :app:assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - name: Build with Gradle 8.7 (no wrapper)
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 8.7
+          arguments: :app:assembleDebug --stacktrace --warning-mode=all
+      - uses: actions/upload-artifact@v4
         with:
           name: JarvisMicBridge-debug
           path: app/build/outputs/apk/debug/app-debug.apk
